@@ -1,14 +1,12 @@
-let cellSize
+// セル正方形のサイズ
+const cellSize = 20
 let screenW
 let screenH
 let arr
-let btn
 let randStart = false
 let arrangement = false
 
 function setup() {
-    // セル正方形のサイズ
-    cellSize = 20
     // 画面横のセル数
     screenW = Math.floor(windowWidth / cellSize)
     // 画面縦のセル数
@@ -16,20 +14,21 @@ function setup() {
 
     createCanvas(screenW * cellSize, screenH * cellSize)
 
+    // 配置時の削除で右クリックを使うので
     document.querySelector("#defaultCanvas0").addEventListener("contextmenu", (e) => {
         e.preventDefault()
     })
 
     background("#ccc")
 
-    btn1 = createButton("　ランダム　")
+    const btn1 = createButton("　　ランダム　　")
     btn1.position(30, 30)
     btn1.mousePressed(() => {
         arr = makeArr2()
         randStart = true
     })
 
-    btn2 = createButton("　　配置　　")
+    const btn2 = createButton("　　　配置　　　")
     btn2.position(30, 60)
     btn2.mousePressed(() => {
         randStart = false
@@ -37,7 +36,7 @@ function setup() {
         arrangement = true
     })
 
-    btn3 = createButton("配置スタート")
+    const btn3 = createButton("　配置スタート　")
     btn3.position(30, 90)
     btn3.mousePressed(() => {
         if (!arr) {
@@ -73,10 +72,10 @@ function doubleClicked() {
 }
 
 function makeArr1() {
-    let arr = []
+    const arr = []
     // 全部0で初期化
     for (let y = 0; y < screenH; y++) {
-        let row = []
+        const row = []
         for (let x = 0; x < screenW; x++) {
             row.push(0)
         }
@@ -86,9 +85,9 @@ function makeArr1() {
 }
 
 function makeArr2() {
-    let arr = []
+    const arr = []
     for (let y = 0; y < screenH; y++) {
-        let row = []
+        const row = []
         for (let x = 0; x < screenW; x++) {
             row.push(int(random(0, 2)))
         }
@@ -114,9 +113,9 @@ function show() {
 }
 
 function next() {
-    let tmp = []
+    const tmp = []
     for (let y = 0; y < screenH; y++) {
-        let row = []
+        const row = []
         for (let x = 0; x < screenW; x++) {
             let count
             if (arr[y][x] === 0) {
@@ -155,29 +154,27 @@ function next() {
 
 function check(y, x) {
     let count = 0
-    if (y - 1 >= 0 && arr[y - 1][x] === 1) {
-        count++
+    const tmp = [
+        [-1, 0],
+        [-1, 1],
+        [0, 1],
+        [1, 1],
+        [1, 0],
+        [1, -1],
+        [0, -1],
+        [-1, -1],
+    ]
+
+    for (const v of tmp) {
+        const row = y + v[0]
+        const col = x + v[1]
+        if (row < 0 || col < 0 || row >= screenH || col >= screenW) {
+            continue
+        }
+        if (arr[row][col] === 1) {
+            count++
+        }
     }
-    if (y - 1 >= 0 && x + 1 < screenW && arr[y - 1][x + 1] === 1) {
-        count++
-    }
-    if (x + 1 < screenW && arr[y][x + 1] === 1) {
-        count++
-    }
-    if (y + 1 < screenH && x + 1 < screenW && arr[y + 1][x + 1] === 1) {
-        count++
-    }
-    if (y + 1 < screenH && arr[y + 1][x] === 1) {
-        count++
-    }
-    if (y + 1 < screenH && x - 1 >= 0 && arr[y + 1][x - 1] === 1) {
-        count++
-    }
-    if (x - 1 >= 0 && arr[y][x - 1] === 1) {
-        count++
-    }
-    if (y - 1 >= 0 && x - 1 >= 0 && arr[y - 1][x - 1] === 1) {
-        count++
-    }
+
     return count
 }
