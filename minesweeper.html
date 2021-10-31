@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マインスイーパー</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 1100px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        .f {
+            display: flex;
+            gap: 30px
+        }
+
+        .btn button {
+            display: block;
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        #canvas_div {
+            flex: 1;
+        }
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" integrity="sha512-N4kV7GkNv7QR7RX9YF/olywyIgIwNvfEe2nZtfyj73HdjCUkAfOBDbcuJ/cTaN04JKRnw1YG1wnUyNKMsNgg3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>マインスイーパー</h1>
+        <div class="f">
+            <div class="btn">
+                <button id="b1">初級</button>
+                <button id="b2">中級</button>
+                <button id="b3">上級</button>
+            </div>
+            <div id="canvas_div"></div>
+        </div>
+    </div>
+    <script src="./minesweeper.js"></script>
+</body>
+
+</html>
