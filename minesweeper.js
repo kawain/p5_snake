@@ -19,6 +19,17 @@ let grids = []
 // マスの縦横と爆弾数
 let h, w, bomb
 
+const surroundArray = [
+    [-1, 0],
+    [-1, 1],
+    [0, 1],
+    [1, 1],
+    [1, 0],
+    [1, -1],
+    [0, -1],
+    [-1, -1],
+]
+
 function setup() {
     const canvas = createCanvas(0, 0)
     canvas.parent("canvas_div")
@@ -169,17 +180,6 @@ function makeArr(row, col, bombNum) {
 function lookAround(y, x) {
     let count = 0
 
-    const surroundArray = [
-        [-1, 0],
-        [-1, 1],
-        [0, 1],
-        [1, 1],
-        [1, 0],
-        [1, -1],
-        [0, -1],
-        [-1, -1],
-    ]
-
     for (const v of surroundArray) {
         const row = y + v[0]
         const col = x + v[1]
@@ -204,13 +204,6 @@ function searchRecursion(y, x) {
         grids[y][x].open = true
         return
     }
-
-    const surroundArray = [
-        [-1, 0],
-        [0, 1],
-        [1, 0],
-        [0, -1],
-    ]
 
     for (const v of surroundArray) {
         const row = y + v[0]
