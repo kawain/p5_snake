@@ -1,21 +1,21 @@
 // セル正方形のサイズ
 const cellSize = 20
-let screenW
-let screenH
+let cols
+let rows
 let arr
 let randStart = false
 let arrangement = false
 
 function setup() {
     // 画面横のセル数
-    screenW = Math.floor(windowWidth / cellSize)
+    cols = floor(windowWidth / cellSize)
     // 画面縦のセル数
-    screenH = Math.floor(windowHeight / cellSize)
+    rows = floor(windowHeight / cellSize)
 
-    createCanvas(screenW * cellSize, screenH * cellSize)
+    createCanvas(cols * cellSize, rows * cellSize)
 
     // 配置時の削除で右クリックを使うので
-    document.querySelector("#defaultCanvas0").addEventListener("contextmenu", (e) => {
+    document.querySelector("canvas").addEventListener("contextmenu", (e) => {
         e.preventDefault()
     })
 
@@ -67,16 +67,12 @@ function draw() {
     }
 }
 
-function doubleClicked() {
-    state = !state
-}
-
 function makeArr1() {
     const arr = []
     // 全部0で初期化
-    for (let y = 0; y < screenH; y++) {
+    for (let y = 0; y < rows; y++) {
         const row = []
-        for (let x = 0; x < screenW; x++) {
+        for (let x = 0; x < cols; x++) {
             row.push(0)
         }
         arr.push(row)
@@ -86,9 +82,9 @@ function makeArr1() {
 
 function makeArr2() {
     const arr = []
-    for (let y = 0; y < screenH; y++) {
+    for (let y = 0; y < rows; y++) {
         const row = []
-        for (let x = 0; x < screenW; x++) {
+        for (let x = 0; x < cols; x++) {
             row.push(int(random(0, 2)))
         }
         arr.push(row)
@@ -97,15 +93,13 @@ function makeArr2() {
 }
 
 function show() {
-    for (let y = 0; y < screenH; y++) {
-        for (let x = 0; x < screenW; x++) {
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
             if (arr[y][x] === 0) {
                 fill("white")
-                // noStroke()
                 rect(x * cellSize, y * cellSize, cellSize, cellSize)
             } else {
                 fill("black")
-                // noStroke()
                 rect(x * cellSize, y * cellSize, cellSize, cellSize)
             }
         }
@@ -114,9 +108,9 @@ function show() {
 
 function next() {
     const tmp = []
-    for (let y = 0; y < screenH; y++) {
+    for (let y = 0; y < rows; y++) {
         const row = []
-        for (let x = 0; x < screenW; x++) {
+        for (let x = 0; x < cols; x++) {
             let count
             if (arr[y][x] === 0) {
                 count = check(y, x)
@@ -168,7 +162,7 @@ function check(y, x) {
     for (const v of tmp) {
         const row = y + v[0]
         const col = x + v[1]
-        if (row < 0 || col < 0 || row >= screenH || col >= screenW) {
+        if (row < 0 || col < 0 || row >= rows || col >= cols) {
             continue
         }
         if (arr[row][col] === 1) {
