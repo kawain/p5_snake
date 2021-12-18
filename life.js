@@ -111,23 +111,16 @@ function next() {
     for (let y = 0; y < rows; y++) {
         const row = []
         for (let x = 0; x < cols; x++) {
-            let count
-            if (arr[y][x] === 0) {
-                count = check(y, x)
-                if (count === 3) {
-                    row.push(1)
-                } else {
-                    row.push(0)
-                }
+            let count = check(y, x)
+            if (count === 3) {
+                // 誕生
+                row.push(1)
+            } else if (count === 2) {
+                // 存続
+                row.push(arr[y][x])
             } else {
-                count = check(y, x)
-                if (count === 2 || count === 3) {
-                    row.push(1)
-                } else if (count <= 1) {
-                    row.push(0)
-                } else {
-                    row.push(0)
-                }
+                // 死滅
+                row.push(0)
             }
         }
         tmp.push(row)
@@ -136,14 +129,9 @@ function next() {
 }
 
 /*
-誕生
-    死んでいるセルに隣接する生きたセルがちょうど3つあれば、次の世代が誕生する。
-生存
-    生きているセルに隣接する生きたセルが2つか3つならば、次の世代でも生存する。
-過疎
-    生きているセルに隣接する生きたセルが1つ以下ならば、過疎により死滅する。
-過密
-    生きているセルに隣接する生きたセルが4つ以上ならば、過密により死滅する。
+3つは誕生
+2つは存続
+それ以外は死
 */
 
 function check(y, x) {
@@ -162,12 +150,8 @@ function check(y, x) {
     for (const v of tmp) {
         const row = y + v[0]
         const col = x + v[1]
-        if (row < 0 || col < 0 || row >= rows || col >= cols) {
-            continue
-        }
-        if (arr[row][col] === 1) {
-            count++
-        }
+        // 周期境界条件
+        count += arr[(row + rows) % rows][(col + cols) % cols]
     }
 
     return count
